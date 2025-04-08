@@ -1,7 +1,7 @@
 from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base_page import BasePage
-from pages.locators import customer_locators as loc
+from pages.locators import customer_login_locators as loc
 from utils import project_ec
 
 
