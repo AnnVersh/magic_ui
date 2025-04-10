@@ -5,14 +5,14 @@ from pages.locators import ecofriendly_locators as loc
 class EcoFriendly(BasePage):
     page_url = '/collections/eco-friendly.html'
 
-    def check_subsection_name(self):
+    def check_subsection_name(self, title):
         subsection_name = self.find(loc.eco_friendly_subsection)
-        assert subsection_name.text == "Eco Friendly"
+        assert subsection_name.text == title
 
-    def check_menu_eco_option(self):
+    def check_menu_eco_option(self, eco_menu_option):
         menu_option = self.find(loc.eco_collection_menu_option)
-        assert menu_option.text == 'ECO COLLECTION'
+        assert menu_option.text == eco_menu_option
 
-    def check_reviews_subsection_opens(self):
+    def check_reviews_subsection_opens(self, url_text):
         self.find(loc.product_reviews).click()
-        self.url_contains('#reviews')
+        self.url_contains(url_text)
