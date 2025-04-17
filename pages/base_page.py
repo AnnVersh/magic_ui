@@ -2,6 +2,8 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
+import allure
+
 
 class BasePage:
     base_url = 'https://magento.softwaretestingboard.com'
@@ -11,12 +13,13 @@ class BasePage:
         self.driver = driver
 
     def open_page(self):
-        if self.page_url:
-            self.driver.get(f'{self.base_url}{self.page_url}')
-        else:
-            raise NotImplementedError(
-                "Page can't be opened for this page class"
-            )
+        with allure.step('Open a page'):
+            if self.page_url:
+                self.driver.get(f'{self.base_url}{self.page_url}')
+            else:
+                raise NotImplementedError(
+                    "Page can't be opened for this page class"
+                )
 
     def find(self, locator: tuple):
         return self.driver.find_element(*locator)
@@ -33,11 +36,24 @@ class BasePage:
         return self.driver.current_url
 
     def url_matches(self, expected_url):
-        self.wait_for_url(expected_url)
+        with allure.step(
+                f'Check that URL matches the required one:'
+                f' {expected_url}'
+        ):
+            self.wait_for_url(expected_url)
         assert self.current_url() == expected_url
 
     def url_contains(self, expected_url_part):
-        WebDriverWait(self.driver, 10).until(
-            EC.url_contains(expected_url_part)
-        )
+        with allure.step(
+                f'Check that URL contains the required part:'
+                f' {expected_url_part}'
+        ):
+            WebDriverWait(self.driver, 10).until(
+                EC.url_contains(expected_url_part)
+            )
         assert expected_url_part in self.current_url()
+
+    def wait_until_visible(self, locator):
+        return WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(locator)
+        )

@@ -1,3 +1,8 @@
+import allure
+
+
+@allure.feature('Login')
+@allure.severity('Critical')
 def test_incorrect_login(customer_login_page):
     customer_login_page.open_page()
     customer_login_page.fill_in_login_form('gjiifj@gmail.com', 'usdvh5')
@@ -7,6 +12,8 @@ def test_incorrect_login(customer_login_page):
     )
 
 
+@allure.feature('Login')
+@allure.severity('Critical')
 def test_correct_email_with_incorrect_pass(customer_login_page):
     customer_login_page.open_page()
     customer_login_page.fill_in_login_form(
